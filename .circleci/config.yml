@@ -22,7 +22,7 @@ jobs:
             rm -rf ./*
 
             java -jar swagger-codegen-cli.jar generate \
-              -i api_spec.json \
+              -i output/api_spec.json \
               -l ruby \
               --additional-properties gemName=aimastering \
               -o /tmp/aimastering-ruby

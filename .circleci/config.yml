@@ -27,6 +27,9 @@ jobs:
               -i output/api_spec.json \
               -l ruby \
               --additional-properties gemName=aimastering \
+              --additional-properties gemAuthor='AI Mastering' \
+              --additional-properties gemHomepage='https://github.com/ai-mastering/aimastering-ruby' \
+              --additional-properties gemLicense=MIT \
               -o /tmp/output/aimastering-ruby
 
             cd /tmp/output/aimastering-ruby

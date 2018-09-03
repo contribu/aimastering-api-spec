@@ -1,0 +1,2522 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is a AI Mastering API document. You can use the mastering feature of [AI Masteringhttps://aimastering.com/]() through this API.",
+    "version" : "1.0.0",
+    "title" : "AI Mastering API",
+    "termsOfService" : "https://aimastering.com/en/terms_of_service/",
+    "contact" : {
+      "email" : "aimasteringcom@gmail.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "aimastering.com:443",
+  "basePath" : "/api",
+  "tags" : [ {
+    "name" : "accessToken"
+  }, {
+    "name" : "audio"
+  }, {
+    "name" : "config"
+  }, {
+    "name" : "externalSearch"
+  }, {
+    "name" : "libraryAudio"
+  }, {
+    "name" : "mastering",
+    "description" : "A mastering consists of input audio, mastering parameters, and output audio."
+  }, {
+    "name" : "payment"
+  }, {
+    "name" : "paymentCustomer"
+  }, {
+    "name" : "plan"
+  }, {
+    "name" : "statistics"
+  }, {
+    "name" : "subscription"
+  }, {
+    "name" : "user"
+  }, {
+    "name" : "video"
+  } ],
+  "schemes" : [ "https" ],
+  "security" : [ {
+    "bearer" : [ ]
+  } ],
+  "paths" : {
+    "/access_tokens" : {
+      "post" : {
+        "tags" : [ "accessToken" ],
+        "summary" : "Create an API access token.",
+        "operationId" : "createAccessToken",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AccessToken"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/audios" : {
+      "get" : {
+        "tags" : [ "audio" ],
+        "summary" : "Get all audios accessable.",
+        "operationId" : "listAudios",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Audio"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "audio" ],
+        "summary" : "Create a new audio.",
+        "operationId" : "createAudio",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "file",
+          "in" : "formData",
+          "description" : "The file to upload.",
+          "required" : false,
+          "type" : "file"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Audio"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/audios/{id}" : {
+      "get" : {
+        "tags" : [ "audio" ],
+        "summary" : "Get an audio by id.",
+        "operationId" : "getAudio",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Audio"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/audios/{id}/download" : {
+      "get" : {
+        "tags" : [ "audio" ],
+        "summary" : "Download an audio data by id.",
+        "operationId" : "downloadAudio",
+        "produces" : [ "application/octet-stream" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string",
+              "format" : "binary"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/audios/download_by_token" : {
+      "get" : {
+        "tags" : [ "audio" ],
+        "summary" : "Download an audio data by audio_download_token.",
+        "operationId" : "downloadAudioByToken",
+        "produces" : [ "application/octet-stream" ],
+        "parameters" : [ {
+          "name" : "download_token",
+          "in" : "query",
+          "description" : "Audio download token",
+          "required" : true,
+          "type" : "string",
+          "format" : "JWT"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string",
+              "format" : "binary"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/audios/{id}/download_token" : {
+      "get" : {
+        "tags" : [ "audio" ],
+        "summary" : "Get an audio download token by id.",
+        "operationId" : "getAudioDownloadToken",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AudioDownloadToken"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/audios/{id}/analysis" : {
+      "get" : {
+        "tags" : [ "audio" ],
+        "summary" : "Get an audio analysis by id.",
+        "operationId" : "getAudioAnalysis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AudioAnalysis"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/config" : {
+      "get" : {
+        "tags" : [ "config" ],
+        "summary" : "Get config.",
+        "operationId" : "getConfig",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Config"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/external_search" : {
+      "get" : {
+        "tags" : [ "externalSearch" ],
+        "summary" : "Search external music and get name, url, thumbnails, etc.",
+        "operationId" : "searchExternal",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "query",
+          "in" : "query",
+          "description" : "Search query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "country",
+          "in" : "query",
+          "description" : "Country ex. US, JP, etc",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ExternalSearchResult"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/library_audios" : {
+      "get" : {
+        "tags" : [ "libraryAudio" ],
+        "summary" : "Get all library audios accessable.",
+        "operationId" : "listLibraryAudios",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/LibraryAudio"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "libraryAudio" ],
+        "summary" : "Create a new library audio.",
+        "operationId" : "createLibraryAudio",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "file",
+          "in" : "formData",
+          "description" : "The file to upload.",
+          "required" : false,
+          "type" : "file"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/LibraryAudio"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/library_audios/{id}" : {
+      "get" : {
+        "tags" : [ "libraryAudio" ],
+        "summary" : "Get a library audio by id.",
+        "operationId" : "getLibraryAudio",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Library audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/LibraryAudio"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "libraryAudio" ],
+        "summary" : "Update library audio.",
+        "operationId" : "updateLibraryAudio",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Library audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "is_public",
+          "in" : "formData",
+          "description" : "Whether the library audio is public.",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/LibraryAudio"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "libraryAudio" ],
+        "summary" : "Delete library audio.",
+        "operationId" : "deleteLibraryAudio",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Library audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/LibraryAudio"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/library_audios/{id}/analysis" : {
+      "get" : {
+        "tags" : [ "libraryAudio" ],
+        "summary" : "Get a library audio analysis by id.",
+        "operationId" : "getLibraryAudioAnalysis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Library audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/LibraryAudioAnalysis"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/library_audios/{id}/like" : {
+      "post" : {
+        "tags" : [ "libraryAudio" ],
+        "summary" : "Create a new library audio like.",
+        "operationId" : "createLibraryAudioLike",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Library audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/LibraryAudioLike"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/masterings" : {
+      "get" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Get all accessable masterings.",
+        "operationId" : "listMasterings",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Mastering"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Create a new mastering.",
+        "operationId" : "createMastering",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "mode",
+          "in" : "formData",
+          "description" : "Mode",
+          "required" : false,
+          "type" : "string",
+          "default" : "default",
+          "enum" : [ "default", "custom", "preset" ]
+        }, {
+          "name" : "input_audio_id",
+          "in" : "formData",
+          "description" : "Input audio id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "bass_preservation",
+          "in" : "formData",
+          "description" : "This parameter represents if the bass preservation is enabled.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "mastering",
+          "in" : "formData",
+          "description" : "This parameter represents if the mastering is enabled. This parameter is effective only when the mode is \"default\" or \"custom\".",
+          "required" : false,
+          "type" : "boolean",
+          "default" : true
+        }, {
+          "name" : "preset",
+          "in" : "formData",
+          "description" : "This parameter is effective only when the mode is \"preset\".",
+          "required" : false,
+          "type" : "string",
+          "default" : "general",
+          "enum" : [ "general", "pop", "classical", "jazz" ]
+        }, {
+          "name" : "target_loudness",
+          "in" : "formData",
+          "description" : "This parameter represents the target loudness of the output audio in dB. This parameter is effective only when the mode is \"custom\".",
+          "required" : false,
+          "type" : "number",
+          "default" : -5.0
+        }, {
+          "name" : "mastering_matching_level",
+          "in" : "formData",
+          "description" : "This parameter represents the mastering reference matching level. This parameter is effective only when the mode is \"custom\" and the mastering is enabled.",
+          "required" : false,
+          "type" : "number",
+          "default" : 0.5,
+          "maximum" : 1,
+          "minimum" : 0
+        }, {
+          "name" : "mastering_reverb",
+          "in" : "formData",
+          "description" : "This parameter represents if the mastering reverb is enabled. This parameter is effective only when the mode is \"custom\" and the mastering is enabled.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "mastering_reverb_gain",
+          "in" : "formData",
+          "description" : "This parameter represents the mastering reverb gain relative to the dry sound in dB. This parameter is effective only when the mode is \"custom\" and the mastering is \"true\" and the mastering_reverb is \"true\".",
+          "required" : false,
+          "type" : "number",
+          "default" : -36.0
+        }, {
+          "name" : "reference_audio_id",
+          "in" : "formData",
+          "description" : "Reference audio id. This parameter is effective only when the mode is \"custom\" and the mastering is enabled.",
+          "required" : false,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "low_cut_freq",
+          "in" : "formData",
+          "description" : "This parameter represents the low cut freq  of the output audio in Hz. This parameter is effective only when the mode is \"custom\".",
+          "required" : false,
+          "type" : "number",
+          "default" : 20.0,
+          "minimum" : 0
+        }, {
+          "name" : "high_cut_freq",
+          "in" : "formData",
+          "description" : "This parameter represents the target loudness of the output audio in Hz. This parameter is effective only when the mode is \"custom\".",
+          "required" : false,
+          "type" : "number",
+          "default" : 20000.0,
+          "minimum" : 0
+        }, {
+          "name" : "sample_rate",
+          "in" : "formData",
+          "description" : "This parameter represents the sample rate of the output audio in dB. This parameter is effective only when the mode is \"custom\".",
+          "required" : false,
+          "type" : "integer",
+          "default" : 44100,
+          "enum" : [ 44100 ]
+        }, {
+          "name" : "bit_depth",
+          "in" : "formData",
+          "description" : "This parameter represents the bit depth of the output audio in dB. This parameter is effective only when the mode is \"custom\".",
+          "required" : false,
+          "type" : "integer",
+          "default" : 16,
+          "enum" : [ 16, 24, 32 ]
+        }, {
+          "name" : "output_format",
+          "in" : "formData",
+          "description" : "This parameter represents the format of the output audio. This parameter is effective only when the mode is \"custom\".",
+          "required" : false,
+          "type" : "string",
+          "default" : "wav",
+          "enum" : [ "wav", "mp3" ]
+        }, {
+          "name" : "for_preview",
+          "in" : "formData",
+          "description" : "If this is true, the mastering is treated for preview purpose (ex. not purchasable, not publishable, short lifetime). ",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "start_at",
+          "in" : "formData",
+          "description" : "Partial mastering start at. ",
+          "required" : false,
+          "type" : "number",
+          "default" : 0.0
+        }, {
+          "name" : "end_at",
+          "in" : "formData",
+          "description" : "Partial mastering end at. ",
+          "required" : false,
+          "type" : "number",
+          "default" : -1.0
+        }, {
+          "name" : "is_bakuage",
+          "in" : "formData",
+          "description" : "Deprecated. For backward compatibility.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Mastering"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/masterings/{id}" : {
+      "get" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Get a mastering by id.",
+        "operationId" : "getMastering",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Mastering id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Mastering"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Delete mastering.",
+        "operationId" : "deleteMastering",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Mastering id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Mastering"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/masterings/{id}/cancel" : {
+      "put" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Cancel a mastering by id.",
+        "operationId" : "cancelMastering",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Mastering id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Mastering"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/masterings/{id}/review" : {
+      "put" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Review a mastering by id.",
+        "operationId" : "reviewMastering",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Mastering id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "review_comment",
+          "in" : "formData",
+          "description" : "This parameter represents the review comment.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "review_score",
+          "in" : "formData",
+          "description" : "This parameter represents the review score.",
+          "required" : false,
+          "type" : "number",
+          "maximum" : 1,
+          "minimum" : 0
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Mastering"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/masterings/{id}/unlock_product" : {
+      "get" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Review a mastering by id.",
+        "operationId" : "getMasteringUnlockProduct",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Mastering id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Mastering"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/masterings/{id}/publish" : {
+      "post" : {
+        "tags" : [ "mastering" ],
+        "summary" : "Publish a mastering by id.",
+        "operationId" : "publishMastering",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Mastering id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "service",
+          "in" : "formData",
+          "description" : "This parameter represents the publishment service.",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "twitter", "youtube" ]
+        }, {
+          "name" : "access_token",
+          "in" : "formData",
+          "description" : "This parameter represents if the access token of the publishment service API.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "access_token_secret",
+          "in" : "formData",
+          "description" : "This parameter represents the access token secret of the publishment service API. This parameter is effective only when the service is \"twitter\".",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "message",
+          "in" : "formData",
+          "description" : "This parameter represents the publishment message.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Mastering"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/payments" : {
+      "get" : {
+        "tags" : [ "payment" ],
+        "summary" : "Get all accessable payments.",
+        "operationId" : "listPayments",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Payment"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "payment" ],
+        "summary" : "Create a new payment.",
+        "operationId" : "createPayment",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "product_token",
+          "in" : "formData",
+          "description" : "This parameter represents the product token.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "service",
+          "in" : "formData",
+          "description" : "This parameter represents the payment message.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "paypal", "stripe" ]
+        }, {
+          "name" : "token",
+          "in" : "formData",
+          "description" : "This parameter represents the card token. This parameter is effective only when the service is \"stripe\".",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Payment"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/payments/{id}" : {
+      "get" : {
+        "tags" : [ "payment" ],
+        "summary" : "Get a payment by id.",
+        "operationId" : "getPayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Payment id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Payment"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/payments/{id}/execute" : {
+      "put" : {
+        "tags" : [ "payment" ],
+        "summary" : "Execute a payment by id.",
+        "operationId" : "executePayment",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Payment id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "payer_id",
+          "in" : "formData",
+          "description" : "This parameter represents the card token. This parameter is effective only when the service is \"paypal\".",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Payment"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/payment_customers/default" : {
+      "get" : {
+        "tags" : [ "paymentCustomer" ],
+        "summary" : "Get a default payment customer.",
+        "operationId" : "getDefaultPaymentCustomer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/PaymentCustomer"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/plans" : {
+      "get" : {
+        "tags" : [ "plan" ],
+        "summary" : "Get all accessable plans.",
+        "operationId" : "listPlans",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Plan"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/statistics/anonymized_masterings" : {
+      "get" : {
+        "tags" : [ "statistics" ],
+        "summary" : "Get anonymized masterings.",
+        "operationId" : "listAnonymizedMasterings",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/AnonymizedMastering"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/statistics/kpis" : {
+      "get" : {
+        "tags" : [ "statistics" ],
+        "summary" : "Get KPIs.",
+        "operationId" : "listKpis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Kpi"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/subscriptions" : {
+      "get" : {
+        "tags" : [ "subscription" ],
+        "summary" : "Get all accessable subscriptions.",
+        "operationId" : "listSubscriptions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Subscription"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "subscription" ],
+        "summary" : "Create a new subscription.",
+        "operationId" : "createSubscription",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "service",
+          "in" : "formData",
+          "description" : "This parameter represents the payment message.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "stripe" ]
+        }, {
+          "name" : "stripe_plan_id",
+          "in" : "formData",
+          "description" : "The Stripe plan id. This parameter is effective only when the service is \"stripe\".",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "token",
+          "in" : "formData",
+          "description" : "This parameter represents the card token. This parameter is effective only when the service is \"stripe\".",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Subscription"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}" : {
+      "get" : {
+        "tags" : [ "subscription" ],
+        "summary" : "Get a subscription by id.",
+        "operationId" : "getSubscription",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Subscription id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Subscription"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}/cancel" : {
+      "put" : {
+        "tags" : [ "subscription" ],
+        "summary" : "Cancel a subscription by id.",
+        "operationId" : "cancelSubscription",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Subscription id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Subscription"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}/cancel_cancellation" : {
+      "put" : {
+        "tags" : [ "subscription" ],
+        "summary" : "Cancel the subscription cancellation  by id.",
+        "operationId" : "cancelSubscriptionCancellation",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Subscription id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Subscription"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/users/self" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Get self user.",
+        "operationId" : "getSelf",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "user" ],
+        "summary" : "Update self user.",
+        "operationId" : "updateSelf",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "agreed_terms_of_service",
+          "in" : "formData",
+          "description" : "Whether you agreed terms of service.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "email",
+          "in" : "formData",
+          "description" : "The email.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/videos" : {
+      "get" : {
+        "tags" : [ "video" ],
+        "summary" : "Get all videos accessable.",
+        "operationId" : "listVideos",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Video"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/videos/{id}" : {
+      "get" : {
+        "tags" : [ "video" ],
+        "summary" : "Get an video by id.",
+        "operationId" : "getVideo",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Video id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Video"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/videos/{id}/download" : {
+      "get" : {
+        "tags" : [ "video" ],
+        "summary" : "Download an video data by id.",
+        "operationId" : "downloadVideo",
+        "produces" : [ "application/octet-stream" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Video id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string",
+              "format" : "binary"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/videos/download_by_token" : {
+      "get" : {
+        "tags" : [ "video" ],
+        "summary" : "Download an video data by video_download_token.",
+        "operationId" : "downloadVideoByToken",
+        "produces" : [ "application/octet-stream" ],
+        "parameters" : [ {
+          "name" : "download_token",
+          "in" : "query",
+          "description" : "Video download token",
+          "required" : true,
+          "type" : "string",
+          "format" : "JWT"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string",
+              "format" : "binary"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/videos/{id}/download_token" : {
+      "get" : {
+        "tags" : [ "video" ],
+        "summary" : "Get an video download token by id.",
+        "operationId" : "getVideoDownloadToken",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Video id",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/VideoDownloadToken"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "bearer" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "AccessToken" : {
+      "type" : "object",
+      "properties" : {
+        "access_token" : {
+          "$ref" : "#/definitions/JWT"
+        }
+      },
+      "example" : {
+        "access_token" : { }
+      }
+    },
+    "AnonymizedMastering" : {
+      "type" : "object",
+      "properties" : {
+        "user_id" : {
+          "type" : "string"
+        },
+        "user_auth_provider" : {
+          "type" : "string"
+        },
+        "mode" : {
+          "type" : "string",
+          "enum" : [ "default", "custom", "preset" ]
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "waiting", "processing", "canceled", "failed", "succeeded" ]
+        },
+        "failure_reason" : {
+          "type" : "string",
+          "enum" : [ "unknown", "expired", "failed_to_prepare", "job_queue" ]
+        },
+        "target_loudness" : {
+          "type" : "number"
+        },
+        "output_format" : {
+          "type" : "string",
+          "enum" : [ "wav", "mp3" ]
+        },
+        "preset" : {
+          "type" : "string",
+          "enum" : [ "general", "pop", "jazz", "classical" ]
+        },
+        "bit_depth" : {
+          "type" : "integer"
+        },
+        "sample_rate" : {
+          "type" : "integer"
+        },
+        "review_score" : {
+          "type" : "number",
+          "minimum" : 0,
+          "maximum" : 1
+        },
+        "mastering_matching_level" : {
+          "type" : "number",
+          "minimum" : 0,
+          "maximum" : 1
+        },
+        "mastering" : {
+          "type" : "boolean"
+        },
+        "paid" : {
+          "type" : "boolean"
+        },
+        "payment_service" : {
+          "type" : "string",
+          "enum" : [ "paypal", "stripe" ]
+        },
+        "retry_count" : {
+          "type" : "integer"
+        },
+        "mastering_reverb" : {
+          "type" : "boolean"
+        },
+        "mastering_reverb_gain" : {
+          "type" : "number"
+        },
+        "low_cut_freq" : {
+          "type" : "number"
+        },
+        "high_cut_freq" : {
+          "type" : "number"
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "payment_service" : "paypal",
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "target_loudness" : 0.80082819046101150206595775671303272247314453125,
+        "failure_reason" : "unknown",
+        "preset" : "general",
+        "mastering_matching_level" : 0.5637376656633328320111786524648778140544891357421875,
+        "low_cut_freq" : 9.301444243932575517419536481611430644989013671875,
+        "mode" : "default",
+        "mastering_reverb_gain" : 7.061401241503109105224211816675961017608642578125,
+        "high_cut_freq" : 3.61607674925191080461672754609026014804840087890625,
+        "user_auth_provider" : "user_auth_provider",
+        "output_format" : "wav",
+        "sample_rate" : 1,
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "user_id" : "user_id",
+        "review_score" : 0.59621339166831821554382031536079011857509613037109375,
+        "retry_count" : 2,
+        "mastering" : true,
+        "paid" : true,
+        "bit_depth" : 6,
+        "mastering_reverb" : true,
+        "status" : "waiting"
+      }
+    },
+    "Audio" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "file_resource_id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "created_by_user" : {
+          "type" : "boolean"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "failure_reason" : {
+          "type" : "string"
+        },
+        "probe_json" : {
+          "type" : "string",
+          "format" : "JSON"
+        },
+        "rms" : {
+          "type" : "number"
+        },
+        "peak" : {
+          "type" : "number"
+        },
+        "loudness" : {
+          "type" : "number"
+        },
+        "dynamics" : {
+          "type" : "number"
+        },
+        "sharpness" : {
+          "type" : "number"
+        },
+        "space" : {
+          "type" : "number"
+        },
+        "loudness_range" : {
+          "type" : "number"
+        },
+        "drr" : {
+          "type" : "number"
+        },
+        "sound_quality" : {
+          "type" : "number"
+        },
+        "frames" : {
+          "type" : "integer"
+        },
+        "sample_rate" : {
+          "type" : "integer"
+        },
+        "channels" : {
+          "type" : "integer"
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "frames" : 1,
+        "drr" : 4.1456080298839363962315474054776132106781005859375,
+        "loudness" : 2.3021358869347654518833223846741020679473876953125,
+        "file_resource_id" : 6,
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "failure_reason" : "failure_reason",
+        "peak" : 5.63737665663332876420099637471139430999755859375,
+        "space" : 3.61607674925191080461672754609026014804840087890625,
+        "created_by_user" : true,
+        "probe_json" : "probe_json",
+        "dynamics" : 7.061401241503109105224211816675961017608642578125,
+        "sample_rate" : 1,
+        "channels" : 1,
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "user_id" : 1,
+        "name" : "name",
+        "rms" : 5.962133916683182377482808078639209270477294921875,
+        "id" : 0,
+        "sharpness" : 9.301444243932575517419536481611430644989013671875,
+        "loudness_range" : 2.027123023002321833274663731572218239307403564453125,
+        "sound_quality" : 7.3862819483858839220147274318151175975799560546875,
+        "status" : "status"
+      }
+    },
+    "AudioAnalysis" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "description" : "Audio analysis id"
+        },
+        "audio_id" : {
+          "type" : "integer",
+          "description" : "Audio id"
+        },
+        "analysis" : {
+          "type" : "object",
+          "description" : "Audio analysis data. The schema changes frequently.",
+          "properties" : { }
+        }
+      },
+      "example" : {
+        "id" : 0,
+        "analysis" : "{}",
+        "audio_id" : 6
+      }
+    },
+    "AudioDownloadToken" : {
+      "type" : "object",
+      "properties" : {
+        "download_token" : {
+          "$ref" : "#/definitions/JWT"
+        },
+        "download_url" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "download_token" : { },
+        "download_url" : "download_url"
+      }
+    },
+    "Config" : {
+      "type" : "object",
+      "properties" : {
+        "auth0" : {
+          "$ref" : "#/definitions/Config_auth0"
+        },
+        "paypal" : {
+          "$ref" : "#/definitions/Config_paypal"
+        },
+        "stripe" : {
+          "$ref" : "#/definitions/Config_stripe"
+        }
+      },
+      "example" : {
+        "auth0" : {
+          "audience" : "audience",
+          "domain" : "domain",
+          "client_id" : "client_id"
+        },
+        "stripe" : {
+          "publishable_key" : "publishable_key"
+        },
+        "paypal" : {
+          "mode" : "mode",
+          "client_id" : "client_id"
+        }
+      }
+    },
+    "ExternalSearchResult" : {
+      "type" : "object",
+      "properties" : {
+        "itunes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ExternalSearchResult_itunes"
+          }
+        },
+        "youtube" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ExternalSearchResult_youtube"
+          }
+        }
+      },
+      "example" : {
+        "youtube" : [ {
+          "channel_name" : "channel_name",
+          "name" : "name",
+          "description" : "description",
+          "id" : "id",
+          "thumbnail_url" : "thumbnail_url",
+          "channel_id" : "channel_id",
+          "url" : "url",
+          "channel_url" : "channel_url"
+        }, {
+          "channel_name" : "channel_name",
+          "name" : "name",
+          "description" : "description",
+          "id" : "id",
+          "thumbnail_url" : "thumbnail_url",
+          "channel_id" : "channel_id",
+          "url" : "url",
+          "channel_url" : "channel_url"
+        } ],
+        "itunes" : [ {
+          "artist_name" : "artist_name",
+          "preview_url" : "preview_url",
+          "album_name" : "album_name",
+          "artist_url" : "artist_url",
+          "name" : "name",
+          "description" : "description",
+          "track_number" : 0,
+          "id" : "id",
+          "thumbnail_url" : "thumbnail_url",
+          "album_url" : "album_url",
+          "url" : "url"
+        }, {
+          "artist_name" : "artist_name",
+          "preview_url" : "preview_url",
+          "album_name" : "album_name",
+          "artist_url" : "artist_url",
+          "name" : "name",
+          "description" : "description",
+          "track_number" : 0,
+          "id" : "id",
+          "thumbnail_url" : "thumbnail_url",
+          "album_url" : "album_url",
+          "url" : "url"
+        } ]
+      }
+    },
+    "JWT" : {
+      "type" : "string",
+      "format" : "JWT"
+    },
+    "Kpi" : {
+      "type" : "object"
+    },
+    "LibraryAudio" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "album" : {
+          "type" : "string"
+        },
+        "album_artist" : {
+          "type" : "string"
+        },
+        "artist" : {
+          "type" : "string"
+        },
+        "genre" : {
+          "type" : "string"
+        },
+        "track" : {
+          "type" : "integer"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "file_hash" : {
+          "type" : "string"
+        },
+        "size" : {
+          "type" : "integer"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "failure_reason" : {
+          "type" : "string"
+        },
+        "probe_json" : {
+          "type" : "string",
+          "format" : "JSON"
+        },
+        "rms" : {
+          "type" : "number"
+        },
+        "peak" : {
+          "type" : "number"
+        },
+        "loudness" : {
+          "type" : "number"
+        },
+        "dynamics" : {
+          "type" : "number"
+        },
+        "sharpness" : {
+          "type" : "number"
+        },
+        "space" : {
+          "type" : "number"
+        },
+        "loudness_range" : {
+          "type" : "number"
+        },
+        "drr" : {
+          "type" : "number"
+        },
+        "sound_quality" : {
+          "type" : "number"
+        },
+        "frames" : {
+          "type" : "integer"
+        },
+        "sample_rate" : {
+          "type" : "integer"
+        },
+        "channels" : {
+          "type" : "integer"
+        },
+        "is_public" : {
+          "type" : "boolean"
+        },
+        "liked_by_self" : {
+          "type" : "boolean"
+        },
+        "like_count" : {
+          "type" : "integer"
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "artist" : "artist",
+        "loudness" : 7.061401241503109105224211816675961017608642578125,
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "space" : 2.027123023002321833274663731572218239307403564453125,
+        "dynamics" : 9.301444243932575517419536481611430644989013671875,
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "album_artist" : "album_artist",
+        "genre" : "genre",
+        "rms" : 5.63737665663332876420099637471139430999755859375,
+        "id" : 0,
+        "sharpness" : 3.61607674925191080461672754609026014804840087890625,
+        "track" : 1,
+        "sound_quality" : 1.231513536777255612975068288506008684635162353515625,
+        "like_count" : 7,
+        "frames" : 1,
+        "drr" : 7.3862819483858839220147274318151175975799560546875,
+        "album" : "album",
+        "failure_reason" : "failure_reason",
+        "peak" : 2.3021358869347654518833223846741020679473876953125,
+        "liked_by_self" : true,
+        "probe_json" : "probe_json",
+        "file_hash" : "file_hash",
+        "size" : 5,
+        "sample_rate" : 1,
+        "channels" : 6,
+        "user_id" : 6,
+        "name" : "name",
+        "is_public" : true,
+        "publisher" : "publisher",
+        "loudness_range" : 4.1456080298839363962315474054776132106781005859375,
+        "status" : "status"
+      }
+    },
+    "LibraryAudioAnalysis" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "description" : "Audio analysis id"
+        },
+        "library_audio_id" : {
+          "type" : "integer",
+          "description" : "Audio id"
+        },
+        "analysis" : {
+          "type" : "object",
+          "description" : "Audio analysis data. The schema changes frequently.",
+          "properties" : { }
+        }
+      },
+      "example" : {
+        "id" : 0,
+        "analysis" : "{}",
+        "library_audio_id" : 6
+      }
+    },
+    "LibraryAudioLike" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "description" : "Audio analysis id"
+        },
+        "library_audio_id" : {
+          "type" : "integer",
+          "description" : "Audio id"
+        },
+        "user_id" : {
+          "type" : "integer",
+          "description" : "User id"
+        }
+      },
+      "example" : {
+        "user_id" : 1,
+        "id" : 0,
+        "library_audio_id" : 6
+      }
+    },
+    "Mastering" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "input_audio_id" : {
+          "type" : "integer"
+        },
+        "output_audio_id" : {
+          "type" : "integer"
+        },
+        "output_video_id" : {
+          "type" : "integer"
+        },
+        "reference_audio_id" : {
+          "type" : "integer"
+        },
+        "mode" : {
+          "type" : "string",
+          "enum" : [ "default", "custom", "preset" ]
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "waiting", "processing", "canceled", "failed", "succeeded" ]
+        },
+        "failure_reason" : {
+          "type" : "string",
+          "enum" : [ "unknown", "expired", "failed_to_prepare", "job_queue" ]
+        },
+        "target_loudness" : {
+          "type" : "number"
+        },
+        "output_format" : {
+          "type" : "string",
+          "enum" : [ "wav", "mp3" ]
+        },
+        "preset" : {
+          "type" : "string",
+          "enum" : [ "general", "pop", "jazz", "classical" ]
+        },
+        "bit_depth" : {
+          "type" : "integer"
+        },
+        "sample_rate" : {
+          "type" : "integer"
+        },
+        "review_comment" : {
+          "type" : "string"
+        },
+        "review_score" : {
+          "type" : "number",
+          "minimum" : 0,
+          "maximum" : 1
+        },
+        "mastering_matching_level" : {
+          "type" : "number",
+          "minimum" : 0,
+          "maximum" : 1
+        },
+        "progression" : {
+          "type" : "number",
+          "minimum" : 0,
+          "maximum" : 1
+        },
+        "bass_preservation" : {
+          "type" : "boolean"
+        },
+        "mastering" : {
+          "type" : "boolean"
+        },
+        "retry_count" : {
+          "type" : "integer"
+        },
+        "mastering_reverb" : {
+          "type" : "boolean"
+        },
+        "mastering_reverb_gain" : {
+          "type" : "number"
+        },
+        "low_cut_freq" : {
+          "type" : "number"
+        },
+        "high_cut_freq" : {
+          "type" : "number"
+        },
+        "expire_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "progression" : 0.7386281948385884366103937281877733767032623291015625,
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "target_loudness" : 7.061401241503109105224211816675961017608642578125,
+        "preset" : "general",
+        "mode" : "default",
+        "mastering_reverb_gain" : 1.024645700144157789424070870154537260532379150390625,
+        "high_cut_freq" : 6.8468526983526398765889098285697400569915771484375,
+        "output_format" : "wav",
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "output_audio_id" : 5,
+        "review_score" : 0.2027123023002321833274663731572218239307403564453125,
+        "bass_preservation" : true,
+        "retry_count" : 1,
+        "mastering" : true,
+        "id" : 0,
+        "review_comment" : "review_comment",
+        "input_audio_id" : 1,
+        "reference_audio_id" : 2,
+        "failure_reason" : "unknown",
+        "mastering_matching_level" : 0.4145608029883935952142337555414997041225433349609375,
+        "low_cut_freq" : 1.489415909854170383397331534069962799549102783203125,
+        "sample_rate" : 3,
+        "user_id" : 6,
+        "output_video_id" : 5,
+        "expire_at" : "2000-01-23T04:56:07.000+00:00",
+        "bit_depth" : 9,
+        "mastering_reverb" : true,
+        "status" : "waiting"
+      }
+    },
+    "Payment" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "service" : {
+          "type" : "string",
+          "enum" : [ "paypal", "stripe" ]
+        },
+        "product_given" : {
+          "type" : "boolean"
+        },
+        "product" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "transaction_id" : {
+          "type" : "string"
+        },
+        "transaction_detail" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "transaction_id" : "transaction_id",
+        "product_given" : true,
+        "product" : "{}",
+        "service" : "paypal",
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "id" : 0,
+        "transaction_detail" : "{}"
+      }
+    },
+    "PaymentCustomer" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "payment_customer_detail" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "id" : 0,
+        "payment_customer_detail" : "{}"
+      }
+    },
+    "Plan" : {
+      "type" : "object",
+      "properties" : {
+        "amount" : {
+          "type" : "integer"
+        },
+        "currency" : {
+          "type" : "string",
+          "enum" : [ "jpy", "usd" ]
+        },
+        "interval" : {
+          "type" : "string",
+          "enum" : [ "month" ]
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "stripe_plan_id" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "amount" : 0,
+        "stripe_plan_id" : "stripe_plan_id",
+        "name" : "name",
+        "currency" : "jpy",
+        "interval" : "month"
+      }
+    },
+    "Subscription" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "stripe_subscription_id" : {
+          "type" : "string"
+        },
+        "current_period_start_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "current_period_end_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "canceled" : {
+          "type" : "boolean"
+        },
+        "cancel_at_period_end" : {
+          "type" : "boolean"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "trialing", "active", "past_due", "unpaid", "canceled" ]
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "canceled" : true,
+        "cancel_at_period_end" : true,
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "user_id" : 6,
+        "current_period_start_at" : "2000-01-23T04:56:07.000+00:00",
+        "stripe_subscription_id" : "stripe_subscription_id",
+        "current_period_end_at" : "2000-01-23T04:56:07.000+00:00",
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "id" : 0,
+        "status" : "trialing"
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "agreed_terms_of_service" : {
+          "type" : "boolean"
+        },
+        "auth_id" : {
+          "type" : "string"
+        },
+        "auth_provider" : {
+          "type" : "string",
+          "enum" : [ "auth0", "github", "google", "twitter" ]
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "auth_id" : "auth_id",
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "id" : 0,
+        "agreed_terms_of_service" : true,
+        "auth_provider" : "auth0",
+        "email" : "email"
+      }
+    },
+    "Video" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "file_resource_id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "created_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "updated_at" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "example" : {
+        "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "user_id" : 1,
+        "file_resource_id" : 6,
+        "name" : "name",
+        "created_at" : "2000-01-23T04:56:07.000+00:00",
+        "id" : 0
+      }
+    },
+    "VideoDownloadToken" : {
+      "type" : "object",
+      "properties" : {
+        "download_token" : {
+          "$ref" : "#/definitions/JWT"
+        },
+        "download_url" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "download_token" : { },
+        "download_url" : "download_url"
+      }
+    },
+    "Config_auth0" : {
+      "properties" : {
+        "audience" : {
+          "type" : "string"
+        },
+        "domain" : {
+          "type" : "string"
+        },
+        "client_id" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "audience" : "audience",
+        "domain" : "domain",
+        "client_id" : "client_id"
+      }
+    },
+    "Config_paypal" : {
+      "properties" : {
+        "mode" : {
+          "type" : "string"
+        },
+        "client_id" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "mode" : "mode",
+        "client_id" : "client_id"
+      }
+    },
+    "Config_stripe" : {
+      "properties" : {
+        "publishable_key" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "publishable_key" : "publishable_key"
+      }
+    },
+    "ExternalSearchResult_itunes" : {
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "thumbnail_url" : {
+          "type" : "string"
+        },
+        "preview_url" : {
+          "type" : "string"
+        },
+        "album_name" : {
+          "type" : "string"
+        },
+        "album_url" : {
+          "type" : "string"
+        },
+        "artist_name" : {
+          "type" : "string"
+        },
+        "artist_url" : {
+          "type" : "string"
+        },
+        "track_number" : {
+          "type" : "integer"
+        }
+      },
+      "example" : {
+        "artist_name" : "artist_name",
+        "preview_url" : "preview_url",
+        "album_name" : "album_name",
+        "artist_url" : "artist_url",
+        "name" : "name",
+        "description" : "description",
+        "track_number" : 0,
+        "id" : "id",
+        "thumbnail_url" : "thumbnail_url",
+        "album_url" : "album_url",
+        "url" : "url"
+      }
+    },
+    "ExternalSearchResult_youtube" : {
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "thumbnail_url" : {
+          "type" : "string"
+        },
+        "channel_id" : {
+          "type" : "string"
+        },
+        "channel_url" : {
+          "type" : "string"
+        },
+        "channel_name" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "channel_name" : "channel_name",
+        "name" : "name",
+        "description" : "description",
+        "id" : "id",
+        "thumbnail_url" : "thumbnail_url",
+        "channel_id" : "channel_id",
+        "url" : "url",
+        "channel_url" : "channel_url"
+      }
+    }
+  },
+  "parameters" : {
+    "AudioDownloadToken" : {
+      "name" : "download_token",
+      "in" : "query",
+      "description" : "Audio download token",
+      "required" : true,
+      "type" : "string",
+      "format" : "JWT"
+    },
+    "AudioId" : {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Audio id",
+      "required" : true,
+      "type" : "integer",
+      "minimum" : 1
+    },
+    "LibraryAudioId" : {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Library audio id",
+      "required" : true,
+      "type" : "integer",
+      "minimum" : 1
+    },
+    "MasteringId" : {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Mastering id",
+      "required" : true,
+      "type" : "integer",
+      "minimum" : 1
+    },
+    "PaymentId" : {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Payment id",
+      "required" : true,
+      "type" : "integer",
+      "minimum" : 1
+    },
+    "SubscriptionId" : {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Subscription id",
+      "required" : true,
+      "type" : "integer",
+      "minimum" : 1
+    },
+    "VideoDownloadToken" : {
+      "name" : "download_token",
+      "in" : "query",
+      "description" : "Video download token",
+      "required" : true,
+      "type" : "string",
+      "format" : "JWT"
+    },
+    "VideoId" : {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Video id",
+      "required" : true,
+      "type" : "integer",
+      "minimum" : 1
+    }
+  }
+}

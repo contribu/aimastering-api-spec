@@ -1,7 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "This is a AI Mastering API document. You can use the mastering feature of [AI Masteringhttps://aimastering.com/]() through this API.",
+    "description" : "This is a AI Mastering API document. You can use the mastering feature of [AI Mastering](https://aimastering.com) through this API.",
     "version" : "1.0.0",
     "title" : "AI Mastering API",
     "termsOfService" : "https://aimastering.com/en/terms_of_service/",

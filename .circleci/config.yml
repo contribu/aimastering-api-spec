@@ -1,0 +1,49 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: contribu/buildenv_docker
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install java and swagger-codegen
+          command: |
+            apt-get update
+            apt-get install -y software-properties-common
+            add-apt-repository ppa:webupd8team/java
+            apt-get update
+            apt-get install -y oracle-java8-installer
+            wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar -O swagger-codegen-cli.jar
+      - run:
+          name: generate ruby client and push
+          command: |
+            git clone git@github.com:ai-mastering/aimastering-ruby.git /tmp/aimastering-ruby
+            rm -rf ./*
+
+            java -jar swagger-codegen-cli.jar generate \
+              -i api_spec.json \
+              -l ruby \
+              --additional-properties gemName=aimastering \
+              -o /tmp/aimastering-ruby
+
+            cd /tmp/aimastering-ruby
+            gem build aimastering.gemspec
+            git add .
+            git commit -m "Generate"
+
+            touch /tmp/ruby_client_finished
+          background: true
+      - run:
+          name: wait for the completion
+          command: |
+            while [ ! -f /tmp/ruby_client_finished ]; do sleep 1; done
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+      - deploy:
+          name: deploy
+          command: |
+            (cd /tmp/aimastering-ruby && git push origin master)

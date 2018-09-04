@@ -7,16 +7,16 @@ Client libraries are automatically generated in CircleCI
 
 |Language|API client|Tutorial|
 |:-:|:-:|:-:|
-|C++|||
-|C#|||
-|Curl|なし||
-|Golang|||
-|Java|||
-|Javascript|| Node Browser |
-|PHP|||
+|C++|-|-|
+|C#|-|-|
+|Curl|-|-|
+|Golang|-|-|
+|Java|-|-|
+|Javascript|[npm](https://www.npmjs.com/package/aimastering)| [Node](https://github.com/ai-mastering/tutorial-node) |
+|PHP|-|-|
 |Ruby|[Gem](https://rubygems.org/gems/aimastering)|[Github](https://github.com/ai-mastering/tutorial-ruby)|
-|Scala|||
-|TypeScript|||
+|Scala|-|-|
+|TypeScript|-|-|
 
 ## For development
 

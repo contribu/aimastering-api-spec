@@ -1136,6 +1136,12 @@
           "description" : "This parameter represents the card token. This parameter is effective only when the service is \"stripe\".",
           "required" : false,
           "type" : "string"
+        }, {
+          "name" : "affiliate_id",
+          "in" : "formData",
+          "description" : "Affiliate id of inviter user.",
+          "required" : false,
+          "type" : "string"
         } ],
         "responses" : {
           "201" : {
@@ -1269,6 +1275,66 @@
           "in" : "formData",
           "description" : "The email.",
           "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/users/self/notify_registration" : {
+      "put" : {
+        "tags" : [ "user" ],
+        "summary" : "Notify user is registered.",
+        "operationId" : "notifyRegistration",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "affiliate_id",
+          "in" : "formData",
+          "description" : "The affiliate id of inviter.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "referrer_url",
+          "in" : "formData",
+          "description" : "The referrer URL.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "default" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/users/self/send_invitation" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Send invitation.",
+        "operationId" : "sendInvitation",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "invitee_email",
+          "in" : "formData",
+          "description" : "The email of invitee.",
+          "required" : true,
           "type" : "string"
         } ],
         "responses" : {
@@ -2210,6 +2276,10 @@
         "cancel_at_period_end" : {
           "type" : "boolean"
         },
+        "trial_end" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
         "status" : {
           "type" : "string",
           "enum" : [ "trialing", "active", "past_due", "unpaid", "canceled" ]
@@ -2231,6 +2301,7 @@
         "current_period_start_at" : "2000-01-23T04:56:07.000+00:00",
         "stripe_subscription_id" : "stripe_subscription_id",
         "current_period_end_at" : "2000-01-23T04:56:07.000+00:00",
+        "trial_end" : "2000-01-23T04:56:07.000+00:00",
         "created_at" : "2000-01-23T04:56:07.000+00:00",
         "id" : 0,
         "status" : "trialing"
@@ -2255,6 +2326,12 @@
         "email" : {
           "type" : "string"
         },
+        "registration_notified" : {
+          "type" : "boolean"
+        },
+        "statistics" : {
+          "$ref" : "#/definitions/User_statistics"
+        },
         "created_at" : {
           "type" : "string",
           "format" : "date-time"
@@ -2267,11 +2344,20 @@
       "example" : {
         "auth_id" : "auth_id",
         "updated_at" : "2000-01-23T04:56:07.000+00:00",
+        "registration_notified" : true,
         "created_at" : "2000-01-23T04:56:07.000+00:00",
         "id" : 0,
         "agreed_terms_of_service" : true,
         "auth_provider" : "auth0",
-        "email" : "email"
+        "email" : "email",
+        "statistics" : {
+          "monthly_mastering_count" : 7,
+          "monthly_subscription_invitation_count" : 2,
+          "subscription_invitation_count" : 1,
+          "mastering_count" : 5,
+          "monthly_registration_invitation_count" : 5,
+          "registration_invitation_count" : 6
+        }
       }
     },
     "Video" : {
@@ -2450,6 +2536,36 @@
         "channel_id" : "channel_id",
         "url" : "url",
         "channel_url" : "channel_url"
+      }
+    },
+    "User_statistics" : {
+      "properties" : {
+        "registration_invitation_count" : {
+          "type" : "integer"
+        },
+        "subscription_invitation_count" : {
+          "type" : "integer"
+        },
+        "mastering_count" : {
+          "type" : "integer"
+        },
+        "monthly_registration_invitation_count" : {
+          "type" : "integer"
+        },
+        "monthly_subscription_invitation_count" : {
+          "type" : "integer"
+        },
+        "monthly_mastering_count" : {
+          "type" : "integer"
+        }
+      },
+      "example" : {
+        "monthly_mastering_count" : 7,
+        "monthly_subscription_invitation_count" : 2,
+        "subscription_invitation_count" : 1,
+        "mastering_count" : 5,
+        "monthly_registration_invitation_count" : 5,
+        "registration_invitation_count" : 6
       }
     }
   },

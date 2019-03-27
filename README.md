@@ -32,14 +32,18 @@ TODO
 ### Relationships
 
 - SwaggerHub
+  - public
   - updated by hand.
 - This repository
+  - private
   - this repository is not updated
   - build is triggered by CircleCI scheduler.
   - build depends on latest swagger-codegen docker image and latest API spec retrieved from AI Mastering production server.
 - Client repositories
+  - public
   - updated by this repository
 - Gem and npm
   - updated by hand
 - Tutorial repositories
+  - public
   - updated by hand

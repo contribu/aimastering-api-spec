@@ -10,18 +10,27 @@ def exec_command(command)
   raise "command failed with exit code #{status}" unless status.success?
 end
 
-additional_properties = {
+config = {
   go: {
-    packageName: 'aimastering'
+    language: 'go',
+    additional_properties: {
+      packageName: 'aimastering'
+    }
   },
   js: {
-    projectName: 'aimastering'
+    language: 'javascript',
+    additional_properties: {
+      projectName: 'aimastering'
+    }
   },
   ruby: {
-    gemName: 'aimastering',
-    gemAuthor: 'Bakuage Co., Ltd.',
-    gemHomepage: 'https://github.com/ai-mastering/aimastering-ruby',
-    gemLicense: 'Apache 2.0'
+    language: 'ruby',
+    additional_properties: {
+      gemName: 'aimastering',
+      gemAuthor: 'Bakuage Co., Ltd.',
+      gemHomepage: 'https://github.com/ai-mastering/aimastering-ruby',
+      gemLicense: 'Apache 2.0'
+    }
   }
 }
 
@@ -45,8 +54,8 @@ additional_properties = {
     'swaggerapi/swagger-codegen-cli',
     'generate',
     '-i', 'https://bakuage.com/api/api_spec.json',
-    '-l', lang,
-    additional_properties[lang].map do |key, value|
+    '-l', config[lang][:language],
+    config[lang][:additional_properties].map do |key, value|
       [
         '--additional-properties',
         "#{key}=#{value}"

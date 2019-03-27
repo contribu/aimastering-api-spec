@@ -50,7 +50,7 @@ config = {
   # generate
   exec_command([
     'docker', 'run', '--rm',
-    '-v', '/tmp/results:/local',
+    '-v', "#{repo_dir}:/local",
     'swaggerapi/swagger-codegen-cli',
     'generate',
     '-i', 'https://bakuage.com/api/api_spec.json',
@@ -61,7 +61,7 @@ config = {
         "#{key}=#{value}"
       ]
     end,
-    '-o', "/local/aimastering-#{lang}"
+    '-o', "/local"
   ].flatten)
 
   # git commit

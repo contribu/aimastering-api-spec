@@ -48,10 +48,9 @@ config = {
   end
 
   # generate
+  # docker -v option doesn't work in circleci
   exec_command([
-    'docker', 'run', '--rm',
-    '-v', "#{repo_dir}:/local",
-    'swaggerapi/swagger-codegen-cli',
+    'java', '-jar', '/tmp/swagger-codegen-cli.jar',
     'generate',
     '-i', 'https://bakuage.com/api/api_spec.json',
     '-l', config[lang][:language],
@@ -61,7 +60,7 @@ config = {
         "#{key}=#{value}"
       ]
     end,
-    '-o', "/local"
+    '-o', repo_dir
   ].flatten)
 
   # git commit

@@ -18,7 +18,7 @@ jobs:
       - deploy:
           name: push clients
           command: |
-            true || ruby .circleci/push.rb
+            ruby .circleci/push.rb
 workflows:
   version: 2
   normal_workflow:

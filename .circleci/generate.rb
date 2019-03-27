@@ -15,7 +15,8 @@ config = {
     language: 'go',
     additional_properties: {
       packageName: 'aimastering'
-    }
+    },
+    template: '/tmp/swagger-codegen/modules/swagger-codegen/src/main/resources/go'
   },
   js: {
     language: 'javascript',
@@ -54,6 +55,7 @@ config = {
     'generate',
     '-i', 'https://bakuage.com/api/api_spec.json',
     '-l', config[lang][:language],
+    config[lang][:template] ? ['-t', config[lang][:template]] : [],
     config[lang][:additional_properties].map do |key, value|
       [
         '--additional-properties',
@@ -63,7 +65,7 @@ config = {
     '-o', repo_dir
   ].flatten)
 
-  # git commit
+  # git commit if diff exists
   Dir.chdir(repo_dir) do
     exec_command([
                    'git', 'add', '.'

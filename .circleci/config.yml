@@ -19,3 +19,18 @@ jobs:
           name: push clients
           command: |
             true || ruby .circleci/push.rb
+workflows:
+  version: 2
+  normal_workflow:
+    jobs:
+    - build
+  schedule_workflow:
+    triggers:
+    - schedule:
+        cron: "12 5 * * *"
+        filters:
+          branches:
+            only:
+            - master
+    jobs:
+    - build

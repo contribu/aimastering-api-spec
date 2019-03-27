@@ -18,7 +18,7 @@ jobs:
             echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
             apt-get install -y oracle-java8-installer oracle-java8-set-default
             wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar -O /tmp/swagger-codegen-cli.jar
-    - run:
+      - run:
           name: generate clients
           command: |
             ruby .circleci/generate.rb

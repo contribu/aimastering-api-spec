@@ -4,9 +4,9 @@ require 'shellwords'
 
 def exec_command(command)
   command = Shellwords.join(command)
-  STDERR.puts command
+  warn command
   output, status = Open3.capture2(command)
-  STDERR.puts output
+  warn output
   raise "command failed with exit code #{status}" unless status.success?
 end
 

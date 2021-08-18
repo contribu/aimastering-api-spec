@@ -38,13 +38,13 @@ workflows:
   normal_workflow:
     jobs:
     - build
-  schedule_workflow:
-    triggers:
-    - schedule:
-        cron: "12 5 * * *"
-        filters:
-          branches:
-            only:
-            - master
-    jobs:
-    - build
+#  schedule_workflow:
+#    triggers:
+#    - schedule:
+#        cron: "12 5 * * *"
+#        filters:
+#          branches:
+#            only:
+#            - master
+#    jobs:
+#    - build

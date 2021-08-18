@@ -31,7 +31,8 @@ config = {
       gemName: 'aimastering',
       gemAuthor: 'Bakuage Co., Ltd.',
       gemHomepage: 'https://github.com/ai-mastering/aimastering-ruby',
-      gemLicense: 'Apache 2.0'
+      gemLicense: 'Apache 2.0',
+      gemVersion: '1.1.0'
     }
   }
 }

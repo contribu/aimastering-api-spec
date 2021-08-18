@@ -21,7 +21,8 @@ config = {
   js: {
     language: 'javascript',
     additional_properties: {
-      projectName: 'aimastering'
+      projectName: 'aimastering',
+      projectVersion: '1.1.0'
     }
   },
   ruby: {
